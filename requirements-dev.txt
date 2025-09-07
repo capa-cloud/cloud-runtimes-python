@@ -1,0 +1,15 @@
+# Include base requirements
+-r requirements.txt
+
+# Development and testing dependencies
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.0.0
+black>=22.0.0
+isort>=5.10.0
+mypy>=1.0.0
+flake8>=5.0.0
+
+# Additional development tools
+pre-commit>=2.20.0
+tox>=4.0.0

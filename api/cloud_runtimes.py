@@ -4,4 +4,8 @@ from api.domain.pubsub_runtimes import PubSubRuntimes
 
 
 class CloudRuntimes(ConfigurationRuntimes, PubSubRuntimes, LoggingRuntimes):
-    pass
+  """Cloud Runtimes main class.
+  
+  Inherits from configuration, pubsub, and logging runtimes.
+  """
+  pass
