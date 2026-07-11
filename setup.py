@@ -11,7 +11,7 @@ setuptools.setup(
     description="Cloud Runtimes API for Python3",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/reactivegroup/cloud-runtimes-python",
+    url="https://github.com/capa-cloud/cloud-runtimes-python",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

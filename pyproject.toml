@@ -47,10 +47,10 @@ test = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/reactivegroup/cloud-runtimes-python"
-Repository = "https://github.com/reactivegroup/cloud-runtimes-python"
-Documentation = "https://github.com/reactivegroup/cloud-runtimes-python"
-"Bug Tracker" = "https://github.com/reactivegroup/cloud-runtimes-python/issues"
+Homepage = "https://github.com/capa-cloud/cloud-runtimes-python"
+Repository = "https://github.com/capa-cloud/cloud-runtimes-python"
+Documentation = "https://github.com/capa-cloud/cloud-runtimes-python"
+"Bug Tracker" = "https://github.com/capa-cloud/cloud-runtimes-python/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]

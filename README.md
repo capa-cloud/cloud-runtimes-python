@@ -297,7 +297,6 @@ Cloud Runtimes Python is part of the broader Capa Cloud ecosystem:
 |---------|----------|-------------|
 | [cloud-runtimes-jvm](https://github.com/capa-cloud/cloud-runtimes-jvm) | Java | JVM API specification |
 | [cloud-runtimes-golang](https://github.com/capa-cloud/cloud-runtimes-golang) | Go | Go API specification |
-| [capa-python](https://github.com/capa-cloud/capa-python) | Python | Python SDK implementation |
 
 ---
 
@@ -357,5 +356,5 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 <p align="center">
   <a href="https://github.com/capa-cloud">Capa Cloud</a> ·
-  <a href="https://capa-cloud.github.io/capa.io/">Documentation</a>
+  <a href="https://capa.rxcloud.group/">Documentation</a>
 </p>
