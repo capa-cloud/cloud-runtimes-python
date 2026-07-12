@@ -2,7 +2,8 @@
 Cloud Runtimes Client implementation.
 """
 
-from typing import Optional
+from types import TracebackType
+from typing import Any, Optional, Type
 
 from .core import (
   BindingRuntimes,
@@ -40,7 +41,7 @@ class CloudRuntimesClient:
     self,
     endpoint: Optional[str] = None,
     timeout: Optional[float] = None,
-    **kwargs
+    **kwargs: Any
   ) -> None:
     """Initialize the Cloud Runtimes client.
     
@@ -201,6 +202,11 @@ class CloudRuntimesClient:
     """Async context manager entry."""
     return self
   
-  async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
+  async def __aexit__(
+    self,
+    exc_type: Optional[Type[BaseException]],
+    exc_val: Optional[BaseException],
+    exc_tb: Optional[TracebackType],
+  ) -> None:
     """Async context manager exit."""
     await self.close()

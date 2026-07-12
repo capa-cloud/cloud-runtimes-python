@@ -80,21 +80,20 @@ cloud-runtimes-python/
 
 | Feature | Interface | Description | Status |
 |---------|-----------|-------------|--------|
-| 🔗 **Service Invocation** | `RpcService` | RPC service-to-service communication | ✅ Stable |
-| ⚙️ **Configuration** | `ConfigurationService` | Dynamic configuration management | ✅ Stable |
-| 📨 **Pub/Sub** | `PubSubService` | Publish/Subscribe messaging | ✅ Stable |
-| 💾 **State Management** | `StateService` | Key-value state storage | ✅ Stable |
-| 🔐 **Secret Management** | `SecretService` | Secure secret retrieval | ✅ Stable |
-| 📊 **Telemetry** | `TelemetryService` | Logs, metrics, and traces | ✅ Stable |
-| 📁 **File System** | `FileService` | File storage operations | ✅ Stable |
-| 🔒 **Distributed Lock** | `LockService` | Distributed locking | ✅ Stable |
+| 🔗 **Service Invocation** | `InvocationRuntimes` | Service-to-service communication | ✅ Stable |
+| ⚙️ **Configuration** | `ConfigurationRuntimes` | Dynamic configuration management | ✅ Stable |
+| 📨 **Pub/Sub** | `PubSubRuntimes` | Publish/Subscribe messaging | ✅ Stable |
+| 💾 **State Management** | `StateRuntimes` | Key-value state storage | ✅ Stable |
+| 🔐 **Secret Management** | `SecretsRuntimes` | Secure secret retrieval | ✅ Stable |
+| 📊 **Telemetry** | `TelemetryRuntimes` | Logs, metrics, and traces | ✅ Stable |
+| 📁 **File System** | `FileRuntimes` | File storage operations | ✅ Stable |
+| 🔒 **Distributed Lock** | `LockRuntimes` | Distributed locking | ✅ Stable |
 
 ### Alpha Features
 
 | Feature | Interface | Description | Status |
 |---------|-----------|-------------|--------|
-| 🗄️ **Database** | `DatabaseService` | SQL database operations | 🔬 Alpha |
-| ⏰ **Schedule** | `ScheduleService` | Scheduled task management | 🔬 Alpha |
+| 🗄️ **Database** | `DatabaseRuntimes` | SQL database operations | 🔬 Alpha |
 
 ---
 
@@ -129,75 +128,21 @@ pip install cloud-runtimes-python==0.0.1
 ### Quick Example
 
 ```python
-from cloud_runtimes import CloudRuntimesClient
+from cloud_runtimes.core import InvocationRuntimes
 
-# Initialize client
-client = CloudRuntimesClient(
-    endpoint="http://localhost:3500",
-    timeout=30.0
-)
-
-# Use the RPC service
-response = client.rpc.invoke_method(
-    service="service-name",
-    method="my-method",
-    data={"key": "value"}
-)
-
-# Use the State service
-client.state.save(
-    store_name="state-store",
-    key="my-key",
-    value={"data": "value"}
-)
-
-# Retrieve state
-state = client.state.get(
-    store_name="state-store",
-    key="my-key"
-)
-```
-
-### Async Support
-
-```python
-import asyncio
-from cloud_runtimes import CloudRuntimesClient
-
-async def main():
-    client = CloudRuntimesClient()
-
-    # Async method invocation
-    response = await client.rpc.invoke_method_async(
-        service="service-name",
-        method="my-method",
-        data={"key": "value"}
+async def invoke(runtime: InvocationRuntimes) -> bytes:
+    return await runtime.invoke_method(
+        app_id="service-name",
+        method_name="my-method",
+        data=b'{"key":"value"}',
     )
-
-    # Async state operations
-    await client.state.save_async(
-        store_name="state-store",
-        key="my-key",
-        value={"data": "value"}
-    )
-
-asyncio.run(main())
 ```
 
 ### Runtime Implementations
 
-Choose your runtime implementation:
-
-```bash
-# For Capa SDK
-pip install capa-python
-
-# For Dapr
-pip install dapr
-
-# For Layotto (coming soon)
-pip install cloud-runtimes-layotto
-```
+This package defines abstract interfaces. Applications must provide an adapter
+for their chosen runtime and inject those implementations into their own client
+or service layer.
 
 ---
 
@@ -205,87 +150,18 @@ pip install cloud-runtimes-layotto
 
 ### Service Invocation
 
-```python
-from typing import Any, Dict
-from cloud_runtimes.rpc import RpcService
-
-class RpcService:
-    def invoke_method(
-        self,
-        service: str,
-        method: str,
-        data: Dict[str, Any]
-    ) -> Dict[str, Any]:
-        """Invoke a method on a remote service."""
-        ...
-
-    async def invoke_method_async(
-        self,
-        service: str,
-        method: str,
-        data: Dict[str, Any]
-    ) -> Dict[str, Any]:
-        """Async method invocation."""
-        ...
-```
+[`InvocationRuntimes`](cloud_runtimes/core/invocation.py) defines asynchronous
+method invocation and registration, plus synchronous invocation helpers.
 
 ### Configuration
 
-```python
-from typing import List, Dict
-from cloud_runtimes.configuration import ConfigurationService
-
-class ConfigurationService:
-    def get_configuration(
-        self,
-        store_name: str,
-        keys: List[str]
-    ) -> Dict[str, str]:
-        """Get configuration values."""
-        ...
-
-    def subscribe_configuration(
-        self,
-        store_name: str,
-        keys: List[str]
-    ) -> "ConfigurationSubscription":
-        """Subscribe to configuration changes."""
-        ...
-```
+[`ConfigurationRuntimes`](cloud_runtimes/core/configuration.py) defines get,
+save, delete, subscribe, and unsubscribe operations for configuration stores.
 
 ### State Management
 
-```python
-from typing import Any, Optional
-from cloud_runtimes.state import StateService, StateItem
-
-class StateService:
-    def get(
-        self,
-        store_name: str,
-        key: str
-    ) -> Optional[Any]:
-        """Get a state value."""
-        ...
-
-    def save(
-        self,
-        store_name: str,
-        key: str,
-        value: Any,
-        metadata: Optional[dict] = None
-    ) -> None:
-        """Save a state value."""
-        ...
-
-    def delete(
-        self,
-        store_name: str,
-        key: str
-    ) -> None:
-        """Delete a state value."""
-        ...
-```
+[`StateRuntimes`](cloud_runtimes/core/state.py) defines single and bulk state
+operations, optimistic-concurrency options, and transactional operations.
 
 ---
 
